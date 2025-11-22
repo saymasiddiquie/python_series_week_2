@@ -280,7 +280,7 @@
 
         <div class="space-y-6">
             <!-- Question 1 -->
-            <div class="bg-white rounded-lg shadow-md border border-gray-200 p-6 question-card">
+            <div class="bg-white rounded-lg shadow-md border border-gray-200 p-6 question-card" data-explanation="Variables can start with an underscore or letter. Numbers cannot be at the start, and hyphens/spaces are illegal symbols.">
                 <h3 class="text-lg font-semibold mb-4">1. Which of the following is a <span class="text-green-600">valid</span> variable name?</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <button onclick="checkAnswer(this, false)" class="p-3 rounded border border-gray-300 hover:bg-gray-50 text-left text-sm code-font">2_score</button>
@@ -288,11 +288,11 @@
                     <button onclick="checkAnswer(this, false)" class="p-3 rounded border border-gray-300 hover:bg-gray-50 text-left text-sm code-font">my-score</button>
                     <button onclick="checkAnswer(this, false)" class="p-3 rounded border border-gray-300 hover:bg-gray-50 text-left text-sm code-font">my score</button>
                 </div>
-                <div class="feedback hidden mt-3 font-semibold"></div>
+                <div class="feedback hidden mt-4 p-4 rounded-lg border-l-4 bg-gray-50"></div>
             </div>
 
             <!-- Question 2 -->
-            <div class="bg-white rounded-lg shadow-md border border-gray-200 p-6 question-card">
+            <div class="bg-white rounded-lg shadow-md border border-gray-200 p-6 question-card" data-explanation="Anything enclosed in quotes (single or double) is treated as a String, even if it contains numbers inside.">
                 <h3 class="text-lg font-semibold mb-4">2. What is the data type of: <code class="bg-gray-100 px-1 rounded">x = "5.5"</code>?</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <button onclick="checkAnswer(this, false)" class="p-3 rounded border border-gray-300 hover:bg-gray-50 text-left text-sm">Float</button>
@@ -300,21 +300,21 @@
                     <button onclick="checkAnswer(this, true)" class="p-3 rounded border border-gray-300 hover:bg-gray-50 text-left text-sm">String</button>
                     <button onclick="checkAnswer(this, false)" class="p-3 rounded border border-gray-300 hover:bg-gray-50 text-left text-sm">Boolean</button>
                 </div>
-                <div class="feedback hidden mt-3 font-semibold"></div>
+                <div class="feedback hidden mt-4 p-4 rounded-lg border-l-4 bg-gray-50"></div>
             </div>
 
             <!-- Question 3 -->
-            <div class="bg-white rounded-lg shadow-md border border-gray-200 p-6 question-card">
+            <div class="bg-white rounded-lg shadow-md border border-gray-200 p-6 question-card" data-explanation="Python is strictly case-sensitive. Uppercase 'M' and lowercase 'm' are seen as completely different characters by the computer.">
                 <h3 class="text-lg font-semibold mb-4">3. Are <code class="text-sm">MyVar</code> and <code class="text-sm">myvar</code> the same variable?</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <button onclick="checkAnswer(this, false)" class="p-3 rounded border border-gray-300 hover:bg-gray-50 text-left text-sm">Yes, Python is case-insensitive.</button>
                     <button onclick="checkAnswer(this, true)" class="p-3 rounded border border-gray-300 hover:bg-gray-50 text-left text-sm">No, Python is case-sensitive.</button>
                 </div>
-                <div class="feedback hidden mt-3 font-semibold"></div>
+                <div class="feedback hidden mt-4 p-4 rounded-lg border-l-4 bg-gray-50"></div>
             </div>
 
             <!-- Question 4 -->
-            <div class="bg-white rounded-lg shadow-md border border-gray-200 p-6 question-card">
+            <div class="bg-white rounded-lg shadow-md border border-gray-200 p-6 question-card" data-explanation="The underscore (_) is the only special character allowed in variable names. Symbols like @, $, and - are reserved or illegal.">
                 <h3 class="text-lg font-semibold mb-4">4. Which symbol is <span class="text-green-600">allowed</span> in a Python variable name?</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <button onclick="checkAnswer(this, false)" class="p-3 rounded border border-gray-300 hover:bg-gray-50 text-left text-sm font-bold">@</button>
@@ -322,11 +322,11 @@
                     <button onclick="checkAnswer(this, true)" class="p-3 rounded border border-gray-300 hover:bg-gray-50 text-left text-sm font-bold">_ (Underscore)</button>
                     <button onclick="checkAnswer(this, false)" class="p-3 rounded border border-gray-300 hover:bg-gray-50 text-left text-sm font-bold">- (Hyphen)</button>
                 </div>
-                <div class="feedback hidden mt-3 font-semibold"></div>
+                <div class="feedback hidden mt-4 p-4 rounded-lg border-l-4 bg-gray-50"></div>
             </div>
 
             <!-- Question 5 -->
-            <div class="bg-white rounded-lg shadow-md border border-gray-200 p-6 question-card">
+            <div class="bg-white rounded-lg shadow-md border border-gray-200 p-6 question-card" data-explanation="Booleans must be capitalized (True/False) and have NO quotes. 'True' in quotes is a String.">
                 <h3 class="text-lg font-semibold mb-4">5. Which of these is a valid value for a <code class="text-red-600">bool</code> type?</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <button onclick="checkAnswer(this, false)" class="p-3 rounded border border-gray-300 hover:bg-gray-50 text-left text-sm code-font">"True"</button>
@@ -334,11 +334,11 @@
                     <button onclick="checkAnswer(this, false)" class="p-3 rounded border border-gray-300 hover:bg-gray-50 text-left text-sm code-font">0</button>
                     <button onclick="checkAnswer(this, false)" class="p-3 rounded border border-gray-300 hover:bg-gray-50 text-left text-sm code-font">yes</button>
                 </div>
-                <div class="feedback hidden mt-3 font-semibold"></div>
+                <div class="feedback hidden mt-4 p-4 rounded-lg border-l-4 bg-gray-50"></div>
             </div>
 
             <!-- Question 6 -->
-            <div class="bg-white rounded-lg shadow-md border border-gray-200 p-6 question-card">
+            <div class="bg-white rounded-lg shadow-md border border-gray-200 p-6 question-card" data-explanation="'class' is a reserved keyword in Python used to define objects. You cannot use reserved keywords (like if, for, while) as variable names.">
                 <h3 class="text-lg font-semibold mb-4">6. Why is <code class="text-red-600">class = 10</code> an invalid statement?</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <button onclick="checkAnswer(this, true)" class="p-3 rounded border border-gray-300 hover:bg-gray-50 text-left text-sm">Because 'class' is a reserved keyword.</button>
@@ -346,7 +346,7 @@
                     <button onclick="checkAnswer(this, false)" class="p-3 rounded border border-gray-300 hover:bg-gray-50 text-left text-sm">Because it starts with 'c'.</button>
                     <button onclick="checkAnswer(this, false)" class="p-3 rounded border border-gray-300 hover:bg-gray-50 text-left text-sm">It is actually valid.</button>
                 </div>
-                <div class="feedback hidden mt-3 font-semibold"></div>
+                <div class="feedback hidden mt-4 p-4 rounded-lg border-l-4 bg-gray-50"></div>
             </div>
         </div>
     </section>
@@ -462,6 +462,8 @@
         // --- Logic for Quiz ---
         function checkAnswer(btn, isCorrect) {
             const card = btn.closest('.question-card');
+            const explanationText = card.getAttribute('data-explanation');
+            
             // Find the index of this card among all question-cards to track score
             const allCards = Array.from(document.querySelectorAll('.question-card'));
             const qIndex = allCards.indexOf(card);
@@ -476,27 +478,41 @@
             allBtns.forEach(b => {
                 b.disabled = true;
                 b.classList.remove('hover:bg-gray-50');
+
+                // Check if this specific button is the correct answer by reading its onclick attribute
+                const isThisCorrect = b.getAttribute('onclick').includes('true');
+
                 if(b === btn) {
+                    // This is the button the user clicked
                     if(isCorrect) {
                         b.classList.add('correct-answer');
                     } else {
                         b.classList.add('wrong-answer');
                     }
-                } else {
-                    // Optional: Show correct answer if they clicked wrong
-                    // (This logic is tricky without marking the correct btn in HTML, simplifying for now)
+                } 
+                
+                // Always highlight the correct answer in green
+                if(isThisCorrect) {
+                    b.classList.add('correct-answer');
                 }
             });
 
             feedback.classList.remove('hidden');
+            
+            // Construct feedback HTML
+            let title = "";
+            let colorClass = "";
+            
             if (isCorrect) {
-                feedback.textContent = "✅ Correct!";
-                feedback.classList.add('text-green-600');
+                title = "<strong class='text-green-700 block mb-1'><i class='fas fa-check-circle'></i> Correct!</strong>";
+                feedback.classList.add('border-green-500', 'bg-green-50');
                 currentScore++;
             } else {
-                feedback.textContent = "❌ Incorrect.";
-                feedback.classList.add('text-red-600');
+                title = "<strong class='text-red-700 block mb-1'><i class='fas fa-times-circle'></i> Incorrect.</strong>";
+                feedback.classList.add('border-red-500', 'bg-red-50');
             }
+
+            feedback.innerHTML = `${title}<p class="text-gray-700 text-sm mt-1"><strong>Summary:</strong> ${explanationText}</p>`;
             
             document.getElementById('scoreDisplay').textContent = currentScore;
         }
