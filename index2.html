@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 3: Conditional Statements | GFG BGIEM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;600;800&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Syntax Highlighting */
+        .code-container {
+            background-color: #1e293b; /* Dark bg for contrast */
+            color: #e2e8f0;
+            border-radius: 0.75rem;
+            border: 1px solid #334155;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .code-line { display: flex; }
+        .line-number {
+            color: #64748b;
+            width: 2rem;
+            text-align: right;
+            margin-right: 1rem;
+            user-select: none;
+            border-right: 1px solid #334155;
+            padding-right: 0.5rem;
+        }
+        .keyword { color: #c678dd; font-weight: bold; } /* Purple */
+        .func { color: #61afef; } /* Blue */
+        .string { color: #98c379; } /* Green */
+        .num { color: #d19a66; } /* Orange */
+        .comment { color: #5c6370; font-style: italic; }
+
+        /* Magical Cards */
+        .magic-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .magic-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-color: #3b82f6;
+        }
+        .magic-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .magic-card:hover::before { opacity: 1; }
+
+        /* Logic Flow Visuals */
+        .flow-node {
+            transition: all 0.4s ease;
+            opacity: 0.5;
+            transform: scale(0.98);
+            border: 2px solid transparent;
+        }
+        .flow-node.active {
+            opacity: 1;
+            transform: scale(1.02);
+            border-color: #22c55e;
+            background-color: #f0fdf4;
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.2);
+        }
+
+        /* Magic Door Interactive */
+        .rune-switch {
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .rune-switch.active {
+            filter: drop-shadow(0 0 8px #a855f7);
+            color: #9333ea;
+        }
+        .door-panel {
+            transition: all 1s ease-in-out;
+            transform-origin: left;
+        }
+        .door-open {
+            transform: perspective(1000px) rotateY(-80deg);
+        }
+
+        /* Quiz Styles */
+        .quiz-btn {
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        .quiz-btn:hover:not(:disabled) {
+            transform: translateX(5px);
+            background-color: #f1f5f9;
+        }
+        .explanation-box {
+            display: none;
+            animation: slideDown 0.3s ease-out;
+        }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Navigation -->
+    <nav class="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-3">
+                    <div class="bg-gradient-to-br from-green-600 to-emerald-700 p-1.5 rounded-lg shadow-lg">
+                        <span class="font-bold text-white text-xl tracking-tighter">GfG</span>
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-slate-800 text-lg leading-tight">Student Chapter BGIEM</h1>
+                        <p class="text-xs text-green-600 font-mono font-semibold">AIML Club • Python Series</p>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <span class="bg-slate-100 text-slate-600 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-slate-200">Week 03</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative overflow-hidden bg-white py-20 border-b border-slate-200">
+        <div class="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px] opacity-40"></div>
+        <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-green-50 to-transparent opacity-50"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="max-w-3xl">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-50 border border-slate-200 mb-6 shadow-sm">
+                    <i data-lucide="wand-2" class="w-4 h-4 text-purple-600"></i>
+                    <span class="text-sm font-mono text-slate-600 font-semibold">logic_mastery.py</span>
+                </div>
+                <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900 mb-6 leading-tight">
+                    The Magic of <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 animate-gradient">Decision Making</span>
+                </h1>
+                <p class="text-xl text-slate-600 mb-10 leading-relaxed max-w-2xl">
+                    Computer programs aren't just lists of commands; they are intelligent. They make choices. 
+                    Master the art of <code class="bg-slate-100 px-2 py-0.5 rounded text-purple-700 font-bold font-mono">if</code>, <code class="bg-slate-100 px-2 py-0.5 rounded text-purple-700 font-bold font-mono">elif</code>, and <code class="bg-slate-100 px-2 py-0.5 rounded text-purple-700 font-bold font-mono">else</code> to give your code a brain.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#basics" class="bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 px-8 rounded-xl transition-all shadow-xl shadow-slate-900/20 flex items-center gap-2 group">
+                        Start the Journey <i data-lucide="arrow-right" class="group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                    <a href="#practice" class="bg-white hover:bg-slate-50 text-slate-700 font-bold py-4 px-8 rounded-xl border border-slate-200 shadow-sm transition-colors flex items-center gap-2">
+                        <i data-lucide="pen-tool" class="w-4 h-4"></i> Practice Quiz
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-32">
+
+        <!-- CONCEPT 1: Basics -->
+        <section id="basics" class="scroll-mt-24">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="w-12 h-12 rounded-2xl bg-blue-100 flex items-center justify-center text-blue-600 shadow-sm">
+                    <i data-lucide="git-branch" class="w-6 h-6"></i>
+                </div>
+                <h2 class="text-3xl font-bold text-slate-900">The Basics: If, Elif, Else</h2>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-16">
+                <!-- Explainer -->
+                <div class="space-y-6 text-lg text-slate-600 leading-relaxed">
+                    <p>
+                        Think of your code as a river. Normally, it flows straight down. Conditional statements allow you to 
+                        <strong class="text-slate-900">divert the flow</strong> based on logic.
+                    </p>
+                    
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                        <div class="flex gap-4 items-start">
+                            <code class="text-purple-600 font-bold text-xl bg-purple-50 px-2 py-1 rounded">if</code>
+                            <div>
+                                <h4 class="font-bold text-slate-900">The Guard</h4>
+                                <p class="text-sm">Checks a condition. If it's True, the code inside runs. If False, it skips.</p>
+                            </div>
+                        </div>
+                        <div class="w-full h-px bg-slate-100"></div>
+                        <div class="flex gap-4 items-start">
+                            <code class="text-blue-600 font-bold text-xl bg-blue-50 px-2 py-1 rounded">elif</code>
+                            <div>
+                                <h4 class="font-bold text-slate-900">The Alternative</h4>
+                                <p class="text-sm">Short for "Else If". Only checked if the previous <code class="text-xs">if</code> failed.</p>
+                            </div>
+                        </div>
+                        <div class="w-full h-px bg-slate-100"></div>
+                        <div class="flex gap-4 items-start">
+                            <code class="text-orange-600 font-bold text-xl bg-orange-50 px-2 py-1 rounded">else</code>
+                            <div>
+                                <h4 class="font-bold text-slate-900">The Fallback</h4>
+                                <p class="text-sm">Catches everything else. No condition needed. Runs if everything above fails.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg">
+                        <h4 class="text-yellow-800 font-bold flex items-center gap-2 mb-1">
+                            <i data-lucide="alert-triangle" class="w-4 h-4"></i> Important: Indentation
+                        </h4>
+                        <p class="text-sm text-yellow-700">
+                            Python uses <strong>indentation (spaces)</strong> to know what code belongs inside the `if` block. Without it, you get an error!
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Interactive Visualizer -->
+                <div class="magic-card">
+                    <div class="bg-slate-50 px-6 py-4 border-b border-slate-100 flex justify-between items-center">
+                        <span class="font-mono text-xs font-bold text-slate-400 uppercase tracking-wider">grading_logic.py</span>
+                        <div class="flex gap-1.5">
+                            <div class="w-2.5 h-2.5 rounded-full bg-red-400"></div>
+                            <div class="w-2.5 h-2.5 rounded-full bg-amber-400"></div>
+                            <div class="w-2.5 h-2.5 rounded-full bg-green-400"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6 grid gap-6">
+                        <!-- The Code -->
+                        <div class="code-container p-4 font-mono text-sm shadow-inner">
+                            <div class="code-line"><div class="line-number">1</div><div><span class="keyword">if</span> score >= <span class="num">90</span>:</div></div>
+                            <div class="code-line"><div class="line-number">2</div><div class="pl-4"><span class="func">print</span>(<span class="string">"Rank: Legend"</span>)</div></div>
+                            <div class="code-line"><div class="line-number">3</div><div><span class="keyword">elif</span> score >= <span class="num">50</span>:</div></div>
+                            <div class="code-line"><div class="line-number">4</div><div class="pl-4"><span class="func">print</span>(<span class="string">"Rank: Hero"</span>)</div></div>
+                            <div class="code-line"><div class="line-number">5</div><div><span class="keyword">else</span>:</div></div>
+                            <div class="code-line"><div class="line-number">6</div><div class="pl-4"><span class="func">print</span>(<span class="string">"Rank: Novice"</span>)</div></div>
+                        </div>
+
+                        <!-- The Flow Visualizer -->
+                        <div class="space-y-2">
+                            <div id="flow-if" class="flow-node bg-white p-3 rounded-lg border border-slate-200 flex justify-between items-center">
+                                <span class="font-mono text-sm font-bold text-purple-600">score >= 90</span>
+                                <i data-lucide="arrow-down" class="w-4 h-4 text-slate-300"></i>
+                            </div>
+                            <div id="flow-elif" class="flow-node bg-white p-3 rounded-lg border border-slate-200 flex justify-between items-center">
+                                <span class="font-mono text-sm font-bold text-blue-600">score >= 50</span>
+                                <i data-lucide="arrow-down" class="w-4 h-4 text-slate-300"></i>
+                            </div>
+                            <div id="flow-else" class="flow-node bg-white p-3 rounded-lg border border-slate-200 flex justify-between items-center">
+                                <span class="font-mono text-sm font-bold text-orange-600">else</span>
+                                <i data-lucide="check" class="w-4 h-4 text-slate-300"></i>
+                            </div>
+                        </div>
+
+                        <!-- Controls -->
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                            <label class="block text-xs font-bold text-slate-500 mb-2">INPUT SCORE</label>
+                            <div class="flex gap-2">
+                                <input type="number" id="scoreInput" placeholder="0-100" class="flex-1 bg-white border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 outline-none transition font-mono">
+                                <button onclick="runLogic()" class="bg-slate-900 text-white px-6 py-2 rounded-lg font-bold hover:scale-105 transition-transform">Run</button>
+                            </div>
+                            <div id="scoreOutput" class="mt-3 text-sm font-mono font-bold text-slate-400 min-h-[1.5rem]">
+                                Waiting for input...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONCEPT 2: Logical Operators -->
+        <section id="operators" class="scroll-mt-24">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="w-12 h-12 rounded-2xl bg-purple-100 flex items-center justify-center text-purple-600 shadow-sm">
+                    <i data-lucide="zap" class="w-6 h-6"></i>
+                </div>
+                <h2 class="text-3xl font-bold text-slate-900">Advanced Magic: Logical Operators</h2>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                
+                <!-- Interactive: The Magic Door -->
+                <div class="magic-card bg-slate-900 border-slate-800 text-white order-2 lg:order-1">
+                    <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20"></div>
+                    
+                    <div class="p-8 relative z-10 flex flex-col items-center">
+                        <h3 class="font-bold text-purple-300 mb-6 uppercase tracking-widest text-sm">Gate of Logic</h3>
+
+                        <!-- The Door -->
+                        <div class="relative w-40 h-64 mb-10 perspective-1000">
+                            <div id="magicDoor" class="door-panel w-full h-full bg-gradient-to-t from-slate-800 to-slate-700 border-4 border-slate-600 rounded-t-full flex items-center justify-center shadow-2xl relative z-10">
+                                <div class="w-4 h-4 rounded-full bg-yellow-500 shadow-[0_0_10px_gold]"></div>
+                                <div class="absolute bottom-0 w-full h-2 bg-slate-900"></div>
+                            </div>
+                            <!-- Behind the door -->
+                            <div class="absolute inset-0 bg-purple-900 rounded-t-full flex items-center justify-center shadow-inner z-0">
+                                <span class="text-4xl">💎</span>
+                            </div>
+                        </div>
+
+                        <!-- Controls -->
+                        <div class="w-full space-y-4">
+                            <!-- Toggle Operator -->
+                            <div class="flex justify-center gap-4 mb-4">
+                                <button onclick="setMode('AND')" id="btn-and" class="px-4 py-1 rounded-full text-xs font-bold bg-purple-600 text-white ring-2 ring-purple-400">AND Mode</button>
+                                <button onclick="setMode('OR')" id="btn-or" class="px-4 py-1 rounded-full text-xs font-bold bg-slate-700 text-slate-400">OR Mode</button>
+                            </div>
+
+                            <!-- Runes -->
+                            <div class="flex justify-between items-center bg-slate-800/50 p-4 rounded-xl border border-slate-700">
+                                <div onclick="toggleRune('A')" class="rune-switch flex flex-col items-center gap-2 group">
+                                    <i id="rune-A" data-lucide="key" class="w-8 h-8 text-slate-600 group-hover:text-slate-400 transition-colors"></i>
+                                    <span class="text-[10px] uppercase font-bold text-slate-500">Key A</span>
+                                </div>
+                                
+                                <div class="font-mono text-xl font-bold text-purple-400" id="operator-display">AND</div>
+
+                                <div onclick="toggleRune('B')" class="rune-switch flex flex-col items-center gap-2 group">
+                                    <i id="rune-B" data-lucide="key" class="w-8 h-8 text-slate-600 group-hover:text-slate-400 transition-colors"></i>
+                                    <span class="text-[10px] uppercase font-bold text-slate-500">Key B</span>
+                                </div>
+                            </div>
+                            
+                            <div id="door-status" class="text-center text-xs font-mono text-slate-400 min-h-[1rem]">
+                                Door is Locked
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Explanation -->
+                <div class="space-y-6 text-lg text-slate-600 order-1 lg:order-2">
+                    <p>
+                        Sometimes one condition isn't enough. We use <strong>Logical Operators</strong> to combine multiple checks into a single decision.
+                    </p>
+
+                    <div class="space-y-4">
+                        <div class="group cursor-default">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="bg-purple-100 text-purple-700 font-bold px-2 py-1 rounded text-sm font-mono">and</span>
+                                <h4 class="font-bold text-slate-900 group-hover:text-purple-600 transition-colors">Both must be True</h4>
+                            </div>
+                            <p class="text-sm pl-11 border-l-2 border-purple-100">
+                                Example: To enter the club, you need to be <br> 
+                                <code class="bg-slate-100 text-slate-800 px-1 rounded text-xs">age >= 18</code> <strong>and</strong> <code class="bg-slate-100 text-slate-800 px-1 rounded text-xs">has_ticket</code>.
+                            </p>
+                        </div>
+
+                        <div class="group cursor-default">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="bg-blue-100 text-blue-700 font-bold px-2 py-1 rounded text-sm font-mono">or</span>
+                                <h4 class="font-bold text-slate-900 group-hover:text-blue-600 transition-colors">At least one is True</h4>
+                            </div>
+                            <p class="text-sm pl-11 border-l-2 border-blue-100">
+                                Example: You can pay with <br>
+                                <code class="bg-slate-100 text-slate-800 px-1 rounded text-xs">cash</code> <strong>or</strong> <code class="bg-slate-100 text-slate-800 px-1 rounded text-xs">credit_card</code>.
+                            </p>
+                        </div>
+
+                        <div class="group cursor-default">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="bg-red-100 text-red-700 font-bold px-2 py-1 rounded text-sm font-mono">not</span>
+                                <h4 class="font-bold text-slate-900 group-hover:text-red-600 transition-colors">Inverts the value</h4>
+                            </div>
+                            <p class="text-sm pl-11 border-l-2 border-red-100">
+                                Turns True to False, and False to True. <br>
+                                Example: <code class="bg-slate-100 text-slate-800 px-1 rounded text-xs">if not is_raining:</code>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PRACTICE ZONE -->
+        <section id="practice" class="py-16">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-purple-600 font-bold tracking-wider text-sm uppercase">Evaluation</span>
+                <h2 class="text-4xl font-extrabold text-slate-900 mt-2 mb-4">Mastery Quiz</h2>
+                <p class="text-slate-500">
+                    Prove your knowledge of conditionals. 10 questions to test if you are ready for the next level.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+                <!-- Q1 -->
+                <div class="magic-card p-6">
+                    <p class="font-bold text-slate-800 mb-4">1. Which keyword is used to start a conditional statement?</p>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="checkAnswer(this, false, 'q1')" class="quiz-btn text-left p-3 rounded-lg border border-slate-200 text-slate-600 text-sm">check</button>
+                        <button onclick="checkAnswer(this, true, 'q1')" class="quiz-btn text-left p-3 rounded-lg border border-slate-200 text-slate-600 text-sm">if</button>
+                        <button onclick="checkAnswer(this, false, 'q1')" class="quiz-btn text-left p-3 rounded-lg border border-slate-200 text-slate-600 text-sm">when</button>
+                        <button onclick="checkAnswer(this, false, 'q1')" class="quiz-btn text-left p-3 rounded-lg border border-slate-200 text-slate-600 text-sm">loop</button>
+                    </div>
+                    <div id="exp-q1" class="explanation-box mt-4 p-3 bg-purple-50 text-purple-900 text-xs rounded border border-purple-100">
+                        <strong>Correct!</strong> `if` is the keyword used to check a condition.
+                    </div>
+                </div>
+
+                <!-- Q2 -->
+                <div class="magic-card p-6">
+                    <p class="font-bold text-slate-800 mb-4">2. What does <code>elif</code> stand for?</p>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="checkAnswer(this, false, 'q2')" class="quiz-btn text-left p-3 rounded-lg border border-slate-200 text-slate-600 text-sm">element if</button>
+                        <button onclick="checkAnswer(this, true, 'q2')" class="quiz-btn text-left p-3 rounded-lg border border-slate-200 text-slate-600 text-sm">else if</button>
+                        <button onclick="checkAnswer(this, false, 'q2')" class="quiz-btn text-left p-3 rounded-lg border border-slate-200 text-slate-600 text-sm">early if</button>
+                        <button onclick="checkAnswer(this, false, 'q2')" class="quiz-btn text-left p-3 rounded-lg border border-slate-200 text-slate-600 text-sm">extra if</button>
+                    </div>
+                    <div id="exp-q2" class="explanation-box mt-4 p-3 bg-purple-50 text-purple-900 text-xs rounded border border-purple-100">
+                        <strong>Correct!</strong> `elif` is Python's shorthand for "else if".
+                    </div>
+                </div>
+
+                <!-- Q3 -->
+                <div class="magic-card p-6">
+                    <p class="font-bold text-slate-800 mb-4">3. Which operator checks if two values are equal?</p>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="checkAnswer(this, false, 'q3')" class="quiz-btn text-left p-3 rounded-lg border border-slate-200 text-slate-600 text-sm">=</button>
+                        <button onclick="checkAnswer(this, false, 'q3')" class="quiz-btn text-left p-3 rounded-lg border border-slate-200 text-slate-600 text-sm"><></button>
+                        <button onclick="checkAnswer(this, true, 'q3')" class="quiz-btn text-left p-3 rounded-lg border border-slate-200 text-slate-600 text-sm">==</button>
+                        <button onclick="checkAnswer(this, false, 'q3')" class="quiz-btn text-left p-3 rounded-lg border border-slate-200 text-slate-600 text-sm">===</button>
+                    </div>
+                    <div id="exp-q3" class="explanation-box mt-4 p-3 bg-purple-50 text-purple-900 text-xs rounded border border-purple-100">
+                        <strong>Correct!</strong> `==` compares values. `=` assigns values.
+                    </div>
+                </div>
+
+                <!-- Q4 -->
+                <div class="magic-card p-6">
+                    <p class="font-bold text-slate-800 mb-4">4. What is the result of: <code>True and False</code>?</p>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="checkAnswer(this, false, 'q4')" class="quiz-btn text-left p-3 rounded-lg border border-slate-200 text-slate-600 text-sm">True</button>
+                        <button onclick="checkAnswer(this, true, 'q4')" class="quiz-btn text-left p-3 rounded-lg border border-slate-200 text-slate-600 text-sm">False</button>
+                        <button onclick="checkAnswer(this, false, 'q4')" class="quiz-btn text-left p-3 rounded-lg border border-slate-200 text-slate-600 text-sm">None</button>
+                        <button onclick="checkAnswer(this, false, 'q4')" class="quiz-btn text-left p-3 rounded-lg border border-slate-200 text-slate-600 text-sm">Error</button>
+                    </div>
+                    <div id="exp-q4" class="explanation-box mt-4 p-3 bg-purple-50 text-purple-900 text-xs rounded border border-purple-100">
+                        <strong>Correct!</strong> For `and`, BOTH sides must be True.
+                    </div>
+                </div>
+
+                <!-- Q5 -->
+                <div class="magic-card p-6">
+                    <p class="font-bold text-slate-800 mb-4">5. What does the <code>else</code> block do?</p>
+                    <div class="grid grid-cols-1 gap-2">
+                        <button onclick="checkAnswer(this, false, 'q5')" class="quiz-btn text-left p-3 rounded-lg border border-slate-200 text-slate-600 text-sm">Checks a new condition</button>
+                        <button onclick="checkAnswer(this, true, 'q5')" class="quiz-btn text-left p-3 rounded-lg border border-slate-200 text-slate-600 text-sm">Runs if all previous conditions fail</button>
+                        <button onclick="checkAnswer(this, false, 'q5')" class="quiz-btn text-left p-3 rounded-lg border border-slate-200 text-slate-600 text-sm">Stops the program</button>
+                    </div>
+                    <div id="exp-q5" class="explanation-box mt-4 p-3 bg-purple-50 text-purple-900 text-xs rounded border border-purple-100">
+                        <strong>Correct!</strong> `else` is the catch-all fallback.
+                    </div>
+                </div>
+
+                <!-- Q6 -->
+                <div class="magic-card p-6">
+                    <p class="font-bold text-slate-800 mb-4">6. How does Python know which code is inside the <code>if</code>?</p>
+                    <div class="grid grid-cols-1 gap-2">
+                        <button onclick="checkAnswer(this, false, 'q6')" class="quiz-btn text-left p-3 rounded-lg border border-slate-200 text-slate-600 text-sm">Curly braces {}</button>
+                        <button onclick="checkAnswer(this, true, 'q6')" class="quiz-btn text-left p-3 rounded-lg border border-slate-200 text-slate-600 text-sm">Indentation (Whitespace)</button>
+                        <button onclick="checkAnswer(this, false, 'q6')" class="quiz-btn text-left p-3 rounded-lg border border-slate-200 text-slate-600 text-sm">Semicolons ;</button>
+                    </div>
+                    <div id="exp-q6" class="explanation-box mt-4 p-3 bg-purple-50 text-purple-900 text-xs rounded border border-purple-100">
+                        <strong>Correct!</strong> Python relies on correct indentation.
+                    </div>
+                </div>
+
+                <!-- Q7 -->
+                <div class="magic-card p-6">
+                    <p class="font-bold text-slate-800 mb-4">7. What is the result of: <code>not True</code>?</p>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="checkAnswer(this, true, 'q7')" class="quiz-btn text-left p-3 rounded-lg border border-slate-200 text-slate-600 text-sm">False</button>
+                        <button onclick="checkAnswer(this, false, 'q7')" class="quiz-btn text-left p-3 rounded-lg border border-slate-200 text-slate-600 text-sm">True</button>
+                        <button onclick="checkAnswer(this, false, 'q7')" class="quiz-btn text-left p-3 rounded-lg border border-slate-200 text-slate-600 text-sm">Error</button>
+                    </div>
+                    <div id="exp-q7" class="explanation-box mt-4 p-3 bg-purple-50 text-purple-900 text-xs rounded border border-purple-100">
+                        <strong>Correct!</strong> `not` inverts the boolean value.
+                    </div>
+                </div>
+
+                <!-- Q8 -->
+                <div class="magic-card p-6">
+                    <p class="font-bold text-slate-800 mb-4">8. Can you have an <code>if</code> without an <code>else</code>?</p>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="checkAnswer(this, true, 'q8')" class="quiz-btn text-left p-3 rounded-lg border border-slate-200 text-slate-600 text-sm">Yes</button>
+                        <button onclick="checkAnswer(this, false, 'q8')" class="quiz-btn text-left p-3 rounded-lg border border-slate-200 text-slate-600 text-sm">No</button>
+                    </div>
+                    <div id="exp-q8" class="explanation-box mt-4 p-3 bg-purple-50 text-purple-900 text-xs rounded border border-purple-100">
+                        <strong>Correct!</strong> `else` is optional.
+                    </div>
+                </div>
+
+                <!-- Q9 -->
+                <div class="magic-card p-6">
+                    <p class="font-bold text-slate-800 mb-4">9. What is the result of: <code>True or False</code>?</p>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="checkAnswer(this, true, 'q9')" class="quiz-btn text-left p-3 rounded-lg border border-slate-200 text-slate-600 text-sm">True</button>
+                        <button onclick="checkAnswer(this, false, 'q9')" class="quiz-btn text-left p-3 rounded-lg border border-slate-200 text-slate-600 text-sm">False</button>
+                    </div>
+                    <div id="exp-q9" class="explanation-box mt-4 p-3 bg-purple-50 text-purple-900 text-xs rounded border border-purple-100">
+                        <strong>Correct!</strong> For `or`, only ONE side needs to be True.
+                    </div>
+                </div>
+
+                <!-- Q10 -->
+                <div class="magic-card p-6">
+                    <p class="font-bold text-slate-800 mb-4">10. Which is a valid boolean value in Python?</p>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="checkAnswer(this, false, 'q10')" class="quiz-btn text-left p-3 rounded-lg border border-slate-200 text-slate-600 text-sm">true</button>
+                        <button onclick="checkAnswer(this, true, 'q10')" class="quiz-btn text-left p-3 rounded-lg border border-slate-200 text-slate-600 text-sm">True</button>
+                        <button onclick="checkAnswer(this, false, 'q10')" class="quiz-btn text-left p-3 rounded-lg border border-slate-200 text-slate-600 text-sm">"True"</button>
+                    </div>
+                    <div id="exp-q10" class="explanation-box mt-4 p-3 bg-purple-50 text-purple-900 text-xs rounded border border-purple-100">
+                        <strong>Correct!</strong> Python Booleans are capitalized: `True` or `False`.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 py-10 text-center text-slate-400 border-t border-slate-800">
+        <p class="text-sm">Made for <span class="text-white font-bold">GFG Student Chapter BGIEM</span></p>
+        <p class="text-xs mt-1">Python Series • Week 3 Resources</p>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        // --- 1. Grading System Logic ---
+        function runLogic() {
+            const input = document.getElementById('scoreInput').value;
+            const output = document.getElementById('scoreOutput');
+            const flowIf = document.getElementById('flow-if');
+            const flowElif = document.getElementById('flow-elif');
+            const flowElse = document.getElementById('flow-else');
+
+            // Reset
+            [flowIf, flowElif, flowElse].forEach(el => el.classList.remove('active', 'border-red-400', 'bg-red-50'));
+            
+            if(input === "") {
+                output.innerText = "Please enter a number.";
+                output.className = "mt-3 text-sm font-mono font-bold text-red-500";
+                return;
+            }
+            
+            const score = parseInt(input);
+
+            // Animate Steps
+            setTimeout(() => {
+                // Check IF
+                flowIf.classList.add('active'); // Highlight
+                if(score >= 90) {
+                    output.innerText = ">> Rank: Legend";
+                    output.className = "mt-3 text-sm font-mono font-bold text-purple-600";
+                } else {
+                    // Fail visual
+                    flowIf.classList.remove('active');
+                    flowIf.classList.add('border-red-400', 'bg-red-50'); // Failed check
+                    
+                    setTimeout(() => {
+                        // Check ELIF
+                        flowElif.classList.add('active');
+                        if(score >= 50) {
+                            output.innerText = ">> Rank: Hero";
+                            output.className = "mt-3 text-sm font-mono font-bold text-blue-600";
+                        } else {
+                            // Fail visual
+                            flowElif.classList.remove('active');
+                            flowElif.classList.add('border-red-400', 'bg-red-50');
+                            
+                            setTimeout(() => {
+                                // Fallback ELSE
+                                flowElse.classList.add('active');
+                                output.innerText = ">> Rank: Novice";
+                                output.className = "mt-3 text-sm font-mono font-bold text-orange-600";
+                            }, 400);
+                        }
+                    }, 400);
+                }
+            }, 100);
+        }
+
+        // --- 2. Magic Door Logic ---
+        let currentMode = 'AND';
+        let keyA = false;
+        let keyB = false;
+
+        function setMode(mode) {
+            currentMode = mode;
+            document.getElementById('operator-display').innerText = mode;
+            
+            // Visual toggle of buttons
+            const btnAnd = document.getElementById('btn-and');
+            const btnOr = document.getElementById('btn-or');
+            
+            if(mode === 'AND') {
+                btnAnd.classList.add('bg-purple-600', 'text-white', 'ring-2', 'ring-purple-400');
+                btnAnd.classList.remove('bg-slate-700', 'text-slate-400');
+                btnOr.classList.remove('bg-blue-600', 'text-white', 'ring-2', 'ring-blue-400');
+                btnOr.classList.add('bg-slate-700', 'text-slate-400');
+            } else {
+                btnOr.classList.add('bg-blue-600', 'text-white', 'ring-2', 'ring-blue-400');
+                btnOr.classList.remove('bg-slate-700', 'text-slate-400');
+                btnAnd.classList.remove('bg-purple-600', 'text-white', 'ring-2', 'ring-purple-400');
+                btnAnd.classList.add('bg-slate-700', 'text-slate-400');
+            }
+            checkDoor();
+        }
+
+        function toggleRune(key) {
+            const el = document.getElementById(`rune-${key}`);
+            const parent = el.parentElement;
+            
+            if(key === 'A') { keyA = !keyA; }
+            if(key === 'B') { keyB = !keyB; }
+
+            // Visuals
+            if((key === 'A' && keyA) || (key === 'B' && keyB)) {
+                el.classList.add('text-purple-400', 'drop-shadow-[0_0_8px_rgba(168,85,247,0.8)]');
+                el.classList.remove('text-slate-600');
+                parent.classList.add('active');
+            } else {
+                el.classList.remove('text-purple-400', 'drop-shadow-[0_0_8px_rgba(168,85,247,0.8)]');
+                el.classList.add('text-slate-600');
+                parent.classList.remove('active');
+            }
+            checkDoor();
+        }
+
+        function checkDoor() {
+            const door = document.getElementById('magicDoor');
+            const status = document.getElementById('door-status');
+            let isOpen = false;
+
+            if (currentMode === 'AND') {
+                isOpen = keyA && keyB;
+            } else {
+                isOpen = keyA || keyB;
+            }
+
+            if (isOpen) {
+                door.classList.add('door-open');
+                status.innerText = "ACCESS GRANTED";
+                status.className = "text-center text-xs font-mono font-bold text-green-400 min-h-[1rem]";
+            } else {
+                door.classList.remove('door-open');
+                status.innerText = "LOCKED";
+                status.className = "text-center text-xs font-mono text-slate-400 min-h-[1rem]";
+            }
+        }
+
+        // --- 3. Quiz Logic ---
+        function checkAnswer(btn, isCorrect, qId) {
+            const parent = btn.parentElement;
+            const btns = parent.getElementsByTagName('button');
+            const exp = document.getElementById(`exp-${qId}`);
+
+            for(let b of btns) {
+                b.disabled = true;
+                b.classList.remove('hover:bg-slate-50', 'hover:scale-105'); 
+                
+                // Identify correct answer by parsing the onclick attribute (looking for 'true')
+                const isCorrectAnswer = b.getAttribute('onclick').includes('true');
+
+                if(b === btn) {
+                    if(isCorrect) {
+                        b.classList.add('bg-green-100', 'border-green-500', 'text-green-800');
+                        b.innerHTML += ' <i data-lucide="check" class="inline w-3 h-3 ml-1"></i>';
+                    } else {
+                        b.classList.add('bg-red-100', 'border-red-500', 'text-red-800');
+                        b.innerHTML += ' <i data-lucide="x" class="inline w-3 h-3 ml-1"></i>';
+                    }
+                }
+                
+                // Highlight the correct answer if the user picked the wrong one
+                if(!isCorrect && isCorrectAnswer) {
+                     b.classList.add('bg-green-50', 'border-green-400', 'text-green-700', 'ring-1', 'ring-green-300');
+                     b.innerHTML += ' <i data-lucide="check-circle" class="inline w-3 h-3 ml-1"></i>';
+                }
+            }
+            exp.style.display = "block";
+            lucide.createIcons();
+        }
+    </script>
+</body>
+</html>
